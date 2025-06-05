@@ -1,0 +1,98 @@
+// delet at position
+#include<iostream>
+using namespace std;
+class node{
+public:
+    int value;
+    node* next;
+
+    node(int data){
+        value=data;
+        next=nullptr;
+    }
+};
+
+class circularlinkedlist{
+public:
+    node* head;
+
+    circularlinkedlist(){
+        head= NULL;
+    }
+
+    void inseratTail(int data){
+        node* new_node= new node(data);
+        if(head==NULL){
+            new_node->next = new_node;
+            head= new_node;
+            return;
+        }
+
+        node* tail= head;
+        while(tail->next != head){
+            tail= tail->next;
+        }
+        tail->next= new_node;
+        new_node->next= head;
+        tail= tail->next;
+        return;
+    }
+
+    void display(){
+        node* temp= head;
+        do{
+            cout << temp->value << " ";
+            temp= temp->next;
+        }while(temp!=head);
+        cout << endl;
+    }
+};
+
+void deletAtStart(node* &head){
+    node* temp= head;
+    node* tail= head;
+    while(tail->next != head){
+        tail= tail->next;
+    }
+    head= head->next;
+    tail->next= head;
+    free(temp);
+    return;
+}
+
+// assume that k <= size of list
+
+void removeKthNode(node* &head, int k){
+    if(k == 1){
+        deletAtStart(head);
+        return;
+    }
+    int count = 1;
+
+    node* curr= head;
+    while(count < (k-1)){
+        curr= curr->next;
+        count++;
+    }
+
+    // now temp is pointing to (k-1)th node
+    
+    node* temp= curr->next;
+    curr->next= curr->next->next;
+    free(temp);
+    return;
+
+}
+int main(){
+    circularlinkedlist list;
+    list.inseratTail(1);
+    list.inseratTail(2);
+    list.inseratTail(3);
+    list.inseratTail(4);
+    list.inseratTail(5);
+
+    list.display();
+    removeKthNode(list.head,5);
+    list.display();
+    return 0;
+}
