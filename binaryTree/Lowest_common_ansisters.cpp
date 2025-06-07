@@ -60,7 +60,7 @@ void levelOrderTraversal(Node* root){
 Node* findLCA(Node* root, int p, int q){
     
     if(root==NULL){
-        return NULL;
+        return NULL; 
     }
     if(root->data==p || root->data == q){
         return root;
